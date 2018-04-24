@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <f:loadBundle var="Messages" basename="properties.messages"></f:loadBundle>
+    
+    <h:head>
+        <h1> <h:outputText value="#{Messages.mensaje}"></h:outputText> </h1>
+        
+        <title>lista de juagadores</title>
+    </h:head>
+    <h:body>
+        <h:form id="idform">
+            <p:growl id="msg"  showDetail="true"></p:growl>
+        <p:dataTable id="idTabla" 
+                     var="registro" 
+                     value="#{jugadorController.listaRegistro}"
+                     scrollable="true"
+                     scrollHeight="4"
+                     editable="true"
+                     selectionMode="single"
+                     emptyMessage="no hay registros"
+                     rowKey="#{registro.idJugador}" >
+            <f:facet name="header">
+                CRUD JSF JUGADOR
+            </f:facet>
+            <!--implementar metodos para el onrowedit-->
+            <p:ajax event="rowSelect" listener="#{jugadorController.onRowSelect}" update=":idform:msg"></p:ajax>
+            <p:ajax event="rowEdit" listener="#{jugadorController.onRowEdit}"></p:ajax>
+            <p:ajax event="rowEditCancel" listener="#{jugadorController.onRowEditCancel}"></p:ajax>
+            <p:column>
+                <f:facet name="header">id usuario</f:facet>
+               #{registro.idJugador }
+            </p:column>
+            <p:column headerText="nombre del jugador">
+                <p:cellEditor>
+                    <f:facet name="output">
+                        <h:outputText value="#{registro.nombre}"></h:outputText>
+                    </f:facet>
+                    <f:facet name="inputt">
+                        <p:inputText value="#{registro.nombre}"> </p:inputText> 
+                    </f:facet>
+                </p:cellEditor>
+                <p:column headerText="Eliminar"> 
+                    <p:commandButton value="">
+                        
+                    </p:commandButton>
+                </p:column>
+            </p:column>
+            <p:column headerText="Editar">
+                <p:rowEditor></p:rowEditor>
+            </p:column>
+    
+        </p:dataTable>
+            </h:form>
+    </h:body>
+</html>
